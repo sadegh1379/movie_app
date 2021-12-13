@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import { Header } from '../components'
 
 export default function Home() {
 
@@ -15,6 +16,7 @@ export default function Home() {
          type="image/x-icon"/>
       </Head>
       {/* header */}
+      <Header />
       {/* navbar */}
       {/* movies */}
     </div>
