@@ -1,11 +1,16 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import { Header } from '../components'
+import { useEffect } from 'react'
+import Head  from 'next/head'
+import { Header, Navbar, Result } from '../components'
+import axios from 'axios';
 
-export default function Home() {
-
+export default function Home({results }) {
+  
+  useEffect(()=>{
+   console.log('results :' , results);
+   
+  },[])
   return (
-    <div>
+    <div className='overflow-x-hidden'>
       <Head>
         <title>hulu 2.0.0</title>
         <meta name="description" content="huhlu app" />
@@ -18,7 +23,24 @@ export default function Home() {
       {/* header */}
       <Header />
       {/* navbar */}
+      <Navbar/>
       {/* movies */}
+      <Result results={results}/>
     </div>
   )
+}
+
+export async function getServerSideProps(context){
+  const start = context.query?.start || 400;
+  const limit = context.query?.limit || 500;
+
+  const data =await axios.get(`https://jsonplaceholder.typicode.com/photos?_start=${start}&_limit=${limit}`)
+    .then(res =>res.data)
+    .catch(err =>console.log(err))
+  
+  return{
+    props:{
+      results : data
+    }
+  }
 }
